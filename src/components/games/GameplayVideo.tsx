@@ -1,9 +1,9 @@
 import { useInView, useReducedMotion } from "framer-motion";
 import { useEffect, useRef } from "react";
 
-type VideoProps = { src: string; poster?: string; title: string; fit: "cover" | "contain" };
+type VideoProps = { src: string; poster?: string; label: string; fit: "cover" | "contain" };
 
-export function GameplayVideo({ src, poster, title, fit }: VideoProps) {
+export function GameplayVideo({ src, poster, label, fit }: VideoProps) {
   const video = useRef<HTMLVideoElement>(null);
   const nearby = useInView(video, { margin: "240px", once: true });
   const visible = useInView(video, { amount: 0.55 });
@@ -40,7 +40,7 @@ export function GameplayVideo({ src, poster, title, fit }: VideoProps) {
       loop
       playsInline
       preload={nearby && !poster ? "metadata" : "none"}
-      aria-label={`${title} oynanış videosu`}
+      aria-label={label}
       style={{ objectFit: fit }}
     />
   );

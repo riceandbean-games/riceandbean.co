@@ -10,7 +10,7 @@ function subscribe(onChange: () => void) {
   return () => window.clearInterval(timer);
 }
 
-export function Copyright({ buildYear }: { buildYear: number }) {
+export function Copyright({ buildYear, rights }: { buildYear: number; rights: string }) {
   const year = useSyncExternalStore(subscribe, currentYear, () => buildYear);
-  return <small className="site-copyright">© {year} {site.name}. Tüm hakları saklıdır.</small>;
+  return <small className="site-copyright">© {year} {site.name}. {rights}</small>;
 }

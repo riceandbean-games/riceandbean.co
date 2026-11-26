@@ -1,6 +1,6 @@
 # Rice & Bean
 
-Official website for the independent mobile game studio. With an empty game list, the entire site is a single purple viewport with the centered wordmark, Turkish copyright notice, and Instagram link. Publishing a game adds the scroll indicator and the game portfolio, with the same footer after the last game.
+Official website for the independent mobile game studio. With an empty game list, the entire site is a single purple viewport with the centered wordmark, language picker, copyright notice, and Instagram link. English opens at `/` by default. Select Türkçe from the globe menu to visit `/tr/`. Publishing a game adds the scroll indicator and the game portfolio in both languages, with the footer after the last game.
 
 ## Development
 
@@ -68,6 +68,7 @@ git push origin main
 | Portfolio entrance, timing and float | `src/config/animations.ts`, `src/app/globals.css` |
 | Footer and copyright | `src/components/layout/`, `src/app/globals.css` |
 | Instagram, site identity, metadata URL and public asset prefix | `src/config/site.ts` |
+| English and Turkish interface copy and page paths | `src/config/languages.ts` |
 
 ## Hosting and domain
 

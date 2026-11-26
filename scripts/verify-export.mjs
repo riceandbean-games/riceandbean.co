@@ -5,6 +5,7 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 const siteUrl = (process.env.SITE_URL || "https://riceandbean.co").replace(/\/$/, "");
 const requiredFiles = [
   "index.html",
+  "tr/index.html",
   ".nojekyll",
   "robots.txt",
   "sitemap.xml",
@@ -22,6 +23,7 @@ for (const file of requiredFiles) {
 }
 
 const html = await readFile("out/index.html", "utf8");
+const turkish = await readFile("out/tr/index.html", "utf8");
 const sitemap = await readFile("out/sitemap.xml", "utf8");
 const robots = await readFile("out/robots.txt", "utf8");
 assert(html.includes(`href="${siteUrl}/"`), "Canonical URL does not match the deployment");
@@ -29,9 +31,15 @@ assert(html.includes(`content="${siteUrl}/brand/social.png"`), "Social image URL
 assert(sitemap.includes(`<loc>${siteUrl}/</loc>`), "Sitemap URL does not match the deployment");
 assert(robots.includes(`Sitemap: ${siteUrl}/sitemap.xml`), "Robots file links to an incorrect sitemap");
 assert(html.includes('href="https://www.instagram.com/riceandbean.co/"'), "Instagram link is missing");
+assert(html.includes('<html lang="en"') && html.includes("All rights reserved."), "English must be the default language");
+assert(turkish.includes('<html lang="tr"') && turkish.includes("Tüm hakları saklıdır."), "Turkish translation is missing");
+assert(turkish.includes(`rel="canonical" href="${siteUrl}/tr/"`), "Turkish canonical URL is incorrect");
+assert(sitemap.includes(`<loc>${siteUrl}/tr/</loc>`), "Turkish sitemap entry is missing");
+assert(html.includes(`href="${basePath}/tr/" hrefLang="tr"`), "Turkish language link is missing");
+assert(turkish.includes(`href="${basePath}/" hrefLang="en"`), "English language link is missing");
 
 const assetUrls = new Set(
-  [...html.matchAll(/(?:src|href)="([^"<>]*(?:\/_next\/|\/brand\/)[^"<>]*)"/g)]
+  [...(html + turkish).matchAll(/(?:src|href)="([^"<>]*(?:\/_next\/|\/brand\/)[^"<>]*)"/g)]
     .map((match) => match[1])
     .filter((url) => url.startsWith("/")),
 );

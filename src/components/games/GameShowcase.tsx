@@ -4,6 +4,7 @@ import { motion, useInView, useReducedMotion } from "framer-motion";
 import { useRef, useState, type CSSProperties } from "react";
 import { animation } from "@/config/animations";
 import { brand } from "@/config/brand";
+import type { Language } from "@/config/languages";
 import { phoneStyle, type PhoneSide } from "@/config/phone";
 import type { Game } from "@/data/games";
 import { PhoneMockup3D } from "./PhoneMockup3D";
@@ -11,7 +12,7 @@ import { StoreBadges } from "./StoreBadges";
 
 const transition = { duration: animation.entrance, ease: animation.easing };
 
-export function GameShowcase({ game, phoneSide }: { game: Game; phoneSide: PhoneSide }) {
+export function GameShowcase({ game, phoneSide, language }: { game: Game; phoneSide: PhoneSide; language: Language }) {
   const section = useRef<HTMLElement>(null);
   const revealed = useInView(section, { amount: animation.revealAmount, once: true });
   const visible = useInView(section);
@@ -51,7 +52,7 @@ export function GameShowcase({ game, phoneSide }: { game: Game; phoneSide: Phone
         >
           <div className="phone-scene" style={phoneStyle(phoneSide)} data-revealed={Boolean(showContent)}>
             <div className="phone-float" data-floating={Boolean(entranceComplete && visible && !reduceMotion)}>
-              <PhoneMockup3D game={game} />
+              <PhoneMockup3D game={game} language={language} />
             </div>
           </div>
         </motion.div>

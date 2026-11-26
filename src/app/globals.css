@@ -3,6 +3,8 @@
 :root {
   color-scheme: light;
   scroll-behavior: smooth;
+  --edge-inline: clamp(1.125rem, 4vw, 4rem);
+  --edge-block: clamp(1rem, 2vw, 1.75rem);
 }
 
 body {
@@ -11,7 +13,8 @@ body {
   font-family: system-ui, sans-serif;
 }
 
-a:focus-visible {
+a:focus-visible,
+.language-trigger:focus-visible {
   outline: 2px solid var(--game-accent, var(--brand-lime));
   outline-offset: 5px;
   border-radius: 6px;
@@ -33,6 +36,46 @@ a:focus-visible {
   width: 100%;
   height: auto;
 }
+
+.language-switcher {
+  position: absolute;
+  z-index: 1;
+  inset-block-start: max(var(--edge-block), env(safe-area-inset-top));
+  inset-inline-end: calc(max(var(--edge-inline), env(safe-area-inset-right)) - 10px);
+}
+
+.language-trigger {
+  width: 44px;
+  height: 44px;
+  list-style: none;
+  cursor: pointer;
+  transition: color 180ms ease;
+}
+
+.language-trigger::-webkit-details-marker { display: none; }
+
+.language-switcher[open] .language-trigger { color: var(--brand-lime); }
+
+.language-options {
+  position: absolute;
+  inset-block-start: calc(100% + 0.45rem);
+  inset-inline-end: 0;
+  min-width: 8rem;
+  padding: 0.25rem;
+  border-radius: 0.5rem;
+  background: var(--brand-dark);
+  font-size: 0.875rem;
+}
+
+.language-options a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: 0.8rem;
+  outline-offset: -2px;
+}
+
+.language-options a[aria-current="page"] { color: var(--brand-lime); }
 
 @keyframes logo-enter {
   from { opacity: 0; transform: scale(0.94); }
@@ -65,11 +108,9 @@ a:focus-visible {
 }
 
 .site-footer {
-  --footer-inline: clamp(1.125rem, 4vw, 4rem);
-  --footer-block: clamp(1rem, 2vw, 1.75rem);
   gap: 0.75rem;
-  padding: var(--footer-block) max(var(--footer-inline), env(safe-area-inset-right))
-    max(var(--footer-block), env(safe-area-inset-bottom)) max(var(--footer-inline), env(safe-area-inset-left));
+  padding: var(--edge-block) max(var(--edge-inline), env(safe-area-inset-right))
+    max(var(--edge-block), env(safe-area-inset-bottom)) max(var(--edge-inline), env(safe-area-inset-left));
   background: var(--brand-purple);
   color: var(--brand-cream);
 }
@@ -95,6 +136,7 @@ a:focus-visible {
 }
 
 @media (hover: hover) {
+  .language-trigger:hover, .language-options a:hover { color: var(--brand-lime); }
   .instagram-link:hover { color: var(--brand-lime); transform: scale(1.08); }
   .store-badge:hover { transform: scale(1.045); }
 }
@@ -265,7 +307,7 @@ a:focus-visible {
 
 @media (max-width: 719px) {
   .brand-logo { width: 82vw; }
-  .instagram-link svg { width: 22px; height: 22px; }
+  .instagram-link svg, .language-trigger svg { width: 22px; height: 22px; }
 
   .game-showcase {
     padding: 4rem max(1.25rem, env(safe-area-inset-right)) 4rem max(1.25rem, env(safe-area-inset-left));
@@ -292,7 +334,7 @@ a:focus-visible {
 
 @media (max-height: 360px) and (orientation: landscape) {
   .brand-logo { width: min(58vw, 260svh); }
-  .site-footer { --footer-block: 0.35rem; }
+  :root { --edge-block: 0.35rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

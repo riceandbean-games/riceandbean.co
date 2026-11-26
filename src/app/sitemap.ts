@@ -1,8 +1,11 @@
 import type { MetadataRoute } from "next";
-import { site } from "@/config/site";
+import { languageUrls } from "@/config/languages";
 
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [{ url: `${site.url}/` }];
+  return [languageUrls.en, languageUrls.tr].map((url) => ({
+    url,
+    alternates: { languages: languageUrls },
+  }));
 }
