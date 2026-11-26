@@ -1,5 +1,6 @@
-import { useInView, useReducedMotion } from "framer-motion";
+import { useInView } from "framer-motion";
 import { useEffect, useRef } from "react";
+import { useReducedMotionPreference } from "@/hooks/useReducedMotionPreference";
 
 type VideoProps = { src: string; poster?: string; label: string; fit: "cover" | "contain" };
 
@@ -7,7 +8,7 @@ export function GameplayVideo({ src, poster, label, fit }: VideoProps) {
   const video = useRef<HTMLVideoElement>(null);
   const nearby = useInView(video, { margin: "240px", once: true });
   const visible = useInView(video, { amount: 0.55 });
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useReducedMotionPreference();
 
   useEffect(() => {
     const player = video.current;

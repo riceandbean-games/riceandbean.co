@@ -1,12 +1,13 @@
 "use client";
 
-import { motion, useInView, useReducedMotion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef, useState, type CSSProperties } from "react";
 import { animation } from "@/config/animations";
 import { brand } from "@/config/brand";
 import type { Language } from "@/config/languages";
 import { phoneStyle, type PhoneSide } from "@/config/phone";
 import type { Game } from "@/data/games";
+import { useReducedMotionPreference } from "@/hooks/useReducedMotionPreference";
 import { PhoneMockup3D } from "./PhoneMockup3D";
 import { StoreBadges } from "./StoreBadges";
 
@@ -16,7 +17,7 @@ export function GameShowcase({ game, phoneSide, language }: { game: Game; phoneS
   const section = useRef<HTMLElement>(null);
   const revealed = useInView(section, { amount: animation.revealAmount, once: true });
   const visible = useInView(section);
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useReducedMotionPreference();
   const [entranceComplete, setEntranceComplete] = useState(false);
   const light = phoneSide === "left";
   const direction = light ? -1 : 1;
