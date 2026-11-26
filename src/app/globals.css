@@ -1,0 +1,314 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--brand-purple);
+  color: var(--brand-cream);
+  font-family: system-ui, sans-serif;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--game-accent, var(--brand-lime));
+  outline-offset: 5px;
+  border-radius: 6px;
+}
+
+.hero {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  background: var(--brand-purple);
+}
+
+.brand-logo {
+  width: min(58vw, 62rem);
+  animation: logo-enter 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.brand-logo img {
+  width: 100%;
+  height: auto;
+}
+
+@keyframes logo-enter {
+  from { opacity: 0; transform: scale(0.94); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.scroll-indicator {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: max(1.25rem, env(safe-area-inset-bottom));
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+  width: fit-content;
+  min-height: 44px;
+  margin-inline: auto;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8125rem;
+  text-align: center;
+}
+
+.scroll-indicator svg {
+  color: var(--brand-lime);
+  animation: chevron-float 2.6s ease-in-out infinite;
+}
+
+@keyframes chevron-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(5px); }
+}
+
+.site-footer {
+  --footer-inline: clamp(1.125rem, 4vw, 4rem);
+  --footer-block: clamp(1rem, 2vw, 1.75rem);
+  gap: 0.75rem;
+  padding: var(--footer-block) max(var(--footer-inline), env(safe-area-inset-right))
+    max(var(--footer-block), env(safe-area-inset-bottom)) max(var(--footer-inline), env(safe-area-inset-left));
+  background: var(--brand-purple);
+  color: var(--brand-cream);
+}
+
+.site-footer[data-mode="viewport"] {
+  position: absolute;
+  inset: auto 0 0;
+}
+
+.site-copyright {
+  min-width: 0;
+  font-size: clamp(0.6875rem, 1.35vw, 0.8125rem);
+  line-height: 1.45;
+}
+
+.instagram-link {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  margin-inline-end: -10px;
+  color: var(--brand-cream);
+  transition: color 180ms ease, transform 180ms ease;
+}
+
+@media (hover: hover) {
+  .instagram-link:hover { color: var(--brand-lime); transform: scale(1.08); }
+  .store-badge:hover { transform: scale(1.045); }
+}
+
+.game-showcase {
+  display: grid;
+  align-items: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow: clip;
+  padding: 5rem max(2.25rem, env(safe-area-inset-right)) 5rem max(2.25rem, env(safe-area-inset-left));
+}
+
+.game-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-areas: "phone info";
+  align-items: center;
+  gap: clamp(2rem, 7vw, 8rem);
+  width: min(100%, 76rem);
+  margin-inline: auto;
+}
+
+.game-showcase[data-phone-side="right"] .game-layout { grid-template-areas: "info phone"; }
+
+.game-information {
+  grid-area: info;
+  display: grid;
+  gap: clamp(1.1rem, 2.5vw, 2.4rem);
+}
+
+.game-title {
+  font-family: ui-rounded, "Arial Rounded MT Bold", "Trebuchet MS", system-ui, sans-serif;
+  font-size: clamp(2.8rem, 7vw, 7rem);
+  font-weight: 900;
+  letter-spacing: -0.052em;
+  line-height: 0.95;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+.store-badges { gap: 0.75rem; }
+
+.store-badge {
+  display: block;
+  transition: transform 180ms ease;
+}
+
+.store-badge img { height: 44px; width: auto; }
+
+.game-showcase .reveal-motion:focus-within { opacity: 1 !important; }
+
+.phone-entrance { grid-area: phone; }
+
+.phone-scene {
+  --phone-rest-current: var(--phone-rest);
+  --phone-entry-current: var(--phone-entry);
+  position: relative;
+  width: min(63%, 19.25rem, 47vh);
+  width: min(63%, 19.25rem, 47svh);
+  margin-inline: auto;
+  perspective: var(--phone-perspective);
+}
+
+.phone-scene::after {
+  position: absolute;
+  z-index: -1;
+  inset-inline: 12%;
+  inset-block-end: -6%;
+  height: 4%;
+  border-radius: 50%;
+  background: #141126;
+  content: "";
+  opacity: 0.24;
+  filter: blur(15px);
+}
+
+.phone-float {
+  transform-style: preserve-3d;
+  animation: phone-float var(--float-duration) ease-in-out infinite;
+  animation-play-state: paused;
+}
+
+.phone-float[data-floating="true"] { animation-play-state: running; }
+
+@keyframes phone-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(calc(-1 * var(--float-distance))); }
+}
+
+.phone-device {
+  position: relative;
+  aspect-ratio: 1 / 2.04;
+  transform: var(--phone-entry-current);
+  transform-style: preserve-3d;
+  transition: transform var(--reveal-time) var(--reveal-easing);
+}
+
+.phone-scene[data-revealed="true"] .phone-device { transform: var(--phone-rest-current); }
+
+.phone-frame,
+.phone-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 14% / 7%;
+}
+
+.phone-frame {
+  background: #35333d;
+  box-shadow: inset 0 0 0 1px #72707e;
+}
+
+.phone-frame:first-child { background: #4a4855; }
+.phone-frame:nth-child(n+4) { background: #25242c; }
+
+.phone-face {
+  display: grid;
+  padding: 2.6%;
+  background: #101014;
+  box-shadow: inset 0 0 0 1px #7e7b8c, inset 0 0 0 3px #2b2a32;
+}
+
+.phone-screen {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12% / 6%;
+  background: var(--brand-dark);
+  isolation: isolate;
+}
+
+.phone-screen video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.phone-camera {
+  position: absolute;
+  inset-block-start: 2.3%;
+  inset-inline-start: 39%;
+  width: 22%;
+  height: 2.6%;
+  border-radius: 1rem;
+  background: #100f14;
+  box-shadow: inset -2px 0 3px #1d1e2b;
+  pointer-events: none;
+}
+
+.phone-buttons {
+  position: absolute;
+  z-index: 1;
+  inset-inline-start: -2px;
+  inset-block-start: 22%;
+  display: grid;
+  gap: 6px;
+  width: 5px;
+  transform: translateZ(-7px) rotateY(55deg);
+}
+
+[data-phone-side="right"] .phone-buttons {
+  inset-inline: auto -2px;
+  transform: translateZ(-7px) rotateY(-55deg);
+}
+
+.phone-buttons i { height: 16px; border-radius: 3px; background: #6b6876; }
+.phone-buttons i:first-child { height: 8px; }
+
+@media (max-width: 719px) {
+  .brand-logo { width: 82vw; }
+  .instagram-link svg { width: 22px; height: 22px; }
+
+  .game-showcase {
+    padding: 4rem max(1.25rem, env(safe-area-inset-right)) 4rem max(1.25rem, env(safe-area-inset-left));
+  }
+
+  .game-layout,
+  .game-showcase[data-phone-side="right"] .game-layout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "phone" "info";
+    gap: clamp(2.5rem, 8vmin, 4rem);
+    text-align: center;
+  }
+
+  .game-title { font-size: clamp(2.65rem, 12vw, 5.4rem); }
+  .store-badges { justify-content: center; }
+
+  .phone-scene {
+    --phone-rest-current: var(--phone-rest-mobile);
+    --phone-entry-current: var(--phone-entry-mobile);
+    width: min(62%, 16.5rem, 49vh);
+    width: min(62%, 16.5rem, 49svh);
+  }
+}
+
+@media (max-height: 360px) and (orientation: landscape) {
+  .brand-logo { width: min(58vw, 260svh); }
+  .site-footer { --footer-block: 0.35rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { scroll-behavior: auto; }
+
+  .brand-logo,
+  .scroll-indicator svg,
+  .phone-float { animation: none; }
+
+  .instagram-link,
+  .store-badge,
+  .phone-device { transition: none; }
+
+  .instagram-link:hover,
+  .store-badge:hover { transform: none; }
+
+  .reveal-motion { opacity: 1 !important; transform: none !important; }
+  .phone-device { transform: var(--phone-rest-current); }
+}
